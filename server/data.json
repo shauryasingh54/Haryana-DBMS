@@ -1,0 +1,395 @@
+{
+  "districts": [
+    "Gurugram",
+    "Faridabad",
+    "Ambala",
+    "Hisar",
+    "Karnal",
+    "Rohtak"
+  ],
+  "users": [
+    {
+      "id": "usr-1",
+      "name": "Dr. Rajesh Verma",
+      "email": "admin@haryana.gov.in",
+      "role": "SYSTEM_ADMIN",
+      "district": "ALL",
+      "active": true,
+      "avatar": "RV"
+    },
+    {
+      "id": "usr-2",
+      "name": "Smt. Sunita Sharma",
+      "email": "exec.sunita@haryana.gov.in",
+      "role": "EXECUTIVE",
+      "district": "ALL",
+      "active": true,
+      "avatar": "SS"
+    },
+    {
+      "id": "usr-3",
+      "name": "Vikramjit Singh",
+      "email": "qa.vikram@haryana.gov.in",
+      "role": "BILLING_QA",
+      "district": "ALL",
+      "active": true,
+      "avatar": "VS"
+    },
+    {
+      "id": "usr-4",
+      "name": "Amit Kumar",
+      "email": "field.gurugram@haryana.gov.in",
+      "role": "FIELD_ENGINEER",
+      "district": "Gurugram",
+      "active": true,
+      "avatar": "AK"
+    },
+    {
+      "id": "usr-5",
+      "name": "Pooja Rani",
+      "email": "field.faridabad@haryana.gov.in",
+      "role": "FIELD_ENGINEER",
+      "district": "Faridabad",
+      "active": true,
+      "avatar": "PR"
+    },
+    {
+      "id": "usr-6",
+      "name": "Deepak Yadav",
+      "email": "field.ambala@haryana.gov.in",
+      "role": "FIELD_ENGINEER",
+      "district": "Ambala",
+      "active": true,
+      "avatar": "DY"
+    }
+  ],
+  "deliverables": [
+    {
+      "id": "DEL-2026-011",
+      "title": "Demo Bridge Inspection #154",
+      "district": "Gurugram",
+      "engineer_id": "usr-4",
+      "engineer_name": "Amit Kumar (Field Officer)",
+      "submission_date": "2026-09-13",
+      "status": "ZERO_VALUE",
+      "raw_file_name": "Bridge_Structural_Audit_Demo.pdf",
+      "estimated_value": 1500000,
+      "certified_value": 0,
+      "invoice_id": null,
+      "notes": "Sample live field report created via Demo Showcase Button."
+    },
+    {
+      "id": "DEL-2026-010",
+      "title": "sectorb 26 land filling",
+      "district": "Gurugram",
+      "engineer_id": "usr-4",
+      "engineer_name": "Amit Kumar (Field Officer)",
+      "submission_date": "2026-09-13",
+      "status": "INVOICED",
+      "raw_file_name": "Admissions_Operations_Data_Summary.pdf",
+      "estimated_value": 100000,
+      "certified_value": 100000,
+      "invoice_id": "INV-2026-806",
+      "notes": "Raw field upload. Pending QA valuation."
+    },
+    {
+      "id": "DEL-2026-009",
+      "title": "sectror 25 landfilling ",
+      "district": "Gurugram",
+      "engineer_id": "usr-4",
+      "engineer_name": "Amit Kumar (Field Officer)",
+      "submission_date": "2026-09-13",
+      "status": "INVOICED",
+      "raw_file_name": "BGMI Campus MVP Ambassador Agreement (1).pdf",
+      "estimated_value": 124000,
+      "certified_value": 124000,
+      "invoice_id": "INV-2026-805",
+      "notes": "the payment shall be processed with digital recipet and id"
+    },
+    {
+      "id": "DEL-2026-001",
+      "title": "NH-48 Flyover Structural Load Testing Report",
+      "district": "Gurugram",
+      "engineer_id": "usr-4",
+      "engineer_name": "Amit Kumar",
+      "submission_date": "2026-09-01",
+      "status": "INVOICED",
+      "raw_file_name": "NH48_Flyover_LoadTest_v2.pdf",
+      "estimated_value": 1250000,
+      "certified_value": 1250000,
+      "invoice_id": "INV-2026-801",
+      "notes": "Ultrasonic testing complete. Certified by Senior QA Engineer."
+    },
+    {
+      "id": "DEL-2026-002",
+      "title": "Sector 14 Drainage Modernization Audit",
+      "district": "Gurugram",
+      "engineer_id": "usr-4",
+      "engineer_name": "Amit Kumar",
+      "submission_date": "2026-09-03",
+      "status": "ZERO_VALUE",
+      "raw_file_name": "Sec14_Drainage_RawScan.zip",
+      "estimated_value": 850000,
+      "certified_value": 0,
+      "invoice_id": null,
+      "notes": "Asynchronous submission. Pending QA valuation mapping."
+    },
+    {
+      "id": "DEL-2026-003",
+      "title": "Badkhal Lake Road Resurfacing Quality Check",
+      "district": "Faridabad",
+      "engineer_id": "usr-5",
+      "engineer_name": "Pooja Rani",
+      "submission_date": "2026-09-04",
+      "status": "CERTIFIED",
+      "raw_file_name": "Badkhal_Road_Bitumen_Test.pdf",
+      "estimated_value": 950000,
+      "certified_value": 920000,
+      "invoice_id": null,
+      "notes": "Bitumen core samples verified. Awaiting invoice mapping."
+    },
+    {
+      "id": "DEL-2026-004",
+      "title": "GT Road Ambala Overbridge Core Inspection",
+      "district": "Ambala",
+      "engineer_id": "usr-6",
+      "engineer_name": "Deepak Yadav",
+      "submission_date": "2026-09-05",
+      "status": "ZERO_VALUE",
+      "raw_file_name": "GT_Bridge_SonarScan.pdf",
+      "estimated_value": 1400000,
+      "certified_value": 0,
+      "invoice_id": null,
+      "notes": "Orphaned deliverable. Requires QA specialist valuation."
+    },
+    {
+      "id": "DEL-2026-005",
+      "title": "Hisar Smart Grid Substation Civil Inspection",
+      "district": "Hisar",
+      "engineer_id": "usr-4",
+      "engineer_name": "Amit Kumar",
+      "submission_date": "2026-09-07",
+      "status": "PENDING_QA",
+      "raw_file_name": "Hisar_Substation_Civil_Log.pdf",
+      "estimated_value": 1100000,
+      "certified_value": 0,
+      "invoice_id": null,
+      "notes": "Submitted via field tablet. Awaiting document review."
+    },
+    {
+      "id": "DEL-2026-006",
+      "title": "Karnal Agri-Tech Hub Soil Bearing Pressure Survey",
+      "district": "Karnal",
+      "engineer_id": "usr-5",
+      "engineer_name": "Pooja Rani",
+      "submission_date": "2026-09-08",
+      "status": "INVOICED",
+      "raw_file_name": "Karnal_Soil_Bearing_Report.pdf",
+      "estimated_value": 780000,
+      "certified_value": 780000,
+      "invoice_id": "INV-2026-802",
+      "notes": "Soil compaction certified. Included in invoice INV-2026-802."
+    },
+    {
+      "id": "DEL-2026-007",
+      "title": "Rohtak Ring Road Retaining Wall Integrity Assessment",
+      "district": "Rohtak",
+      "engineer_id": "usr-6",
+      "engineer_name": "Deepak Yadav",
+      "submission_date": "2026-09-10",
+      "status": "ZERO_VALUE",
+      "raw_file_name": "Rohtak_RetainingWall_Raw.pdf",
+      "estimated_value": 1650000,
+      "certified_value": 0,
+      "invoice_id": null,
+      "notes": "Field upload completed offline during portal outage."
+    },
+    {
+      "id": "DEL-2026-008",
+      "title": "Cyber City Gurugram Underpass Drainage Test",
+      "district": "Gurugram",
+      "engineer_id": "usr-4",
+      "engineer_name": "Amit Kumar",
+      "submission_date": "2026-09-11",
+      "status": "CERTIFIED",
+      "raw_file_name": "CyberCity_Underpass_PumpAudit.pdf",
+      "estimated_value": 1800000,
+      "certified_value": 1750000,
+      "invoice_id": null,
+      "notes": "Flow rate tests verified. Ready for batch invoice mapping."
+    }
+  ],
+  "invoices": [
+    {
+      "id": "INV-2026-806",
+      "invoice_number": "HR-PWD-2026-0806",
+      "billing_date": "2026-09-13",
+      "total_amount": 100000,
+      "district": "Gurugram",
+      "status": "ISSUED",
+      "deliverable_ids": [
+        "DEL-2026-010"
+      ],
+      "notes": "Batched mapping of 1 report deliverables."
+    },
+    {
+      "id": "INV-2026-805",
+      "invoice_number": "HR-PWD-2026-0805",
+      "billing_date": "2026-09-13",
+      "total_amount": 124000,
+      "district": "Gurugram",
+      "status": "ISSUED",
+      "deliverable_ids": [
+        "DEL-2026-009"
+      ],
+      "notes": "Batched mapping of 1 report deliverables."
+    },
+    {
+      "id": "INV-2026-801",
+      "invoice_number": "HR-PWD-2026-0801",
+      "billing_date": "2026-09-02",
+      "total_amount": 1250000,
+      "district": "Gurugram",
+      "status": "PAID",
+      "deliverable_ids": [
+        "DEL-2026-001"
+      ],
+      "notes": "NH-48 Flyover certified billing."
+    },
+    {
+      "id": "INV-2026-802",
+      "invoice_number": "HR-PWD-2026-0802",
+      "billing_date": "2026-09-09",
+      "total_amount": 780000,
+      "district": "Karnal",
+      "status": "ISSUED",
+      "deliverable_ids": [
+        "DEL-2026-006"
+      ],
+      "notes": "Karnal Soil survey billing."
+    }
+  ],
+  "externalIntegrations": [
+    {
+      "id": "portal-1",
+      "name": "Haryana Govt e-Procurement Portal",
+      "type": "GOVERNMENT",
+      "status": "ONLINE",
+      "last_sync": "2026-09-13 01:30",
+      "retry_queue": 0,
+      "offline_workaround_active": false,
+      "uptime_percentage": 99.8
+    },
+    {
+      "id": "portal-2",
+      "name": "Corporate Infrastructure Gateway (CIG)",
+      "type": "CORPORATE",
+      "status": "DEGRADED",
+      "last_sync": "2026-09-12 18:45",
+      "retry_queue": 14,
+      "offline_workaround_active": true,
+      "uptime_percentage": 84.2
+    },
+    {
+      "id": "portal-3",
+      "name": "State Treasury Billing Clearinghouse",
+      "type": "FINANCIAL",
+      "status": "ONLINE",
+      "last_sync": "2026-09-13 01:15",
+      "retry_queue": 0,
+      "offline_workaround_active": false,
+      "uptime_percentage": 99.95
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log-1789303583195",
+      "timestamp": "2026-09-13 12:46:23",
+      "user": "Amit Kumar (Field Officer)",
+      "role": "FIELD_ENGINEER",
+      "action": "DELIVERABLE_SUBMITTED",
+      "details": "Uploaded field deliverable DEL-2026-011 (Gurugram)",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "log-1789303447084",
+      "timestamp": "2026-09-13 12:44:07",
+      "user": "Vikramjit Singh",
+      "role": "BILLING_QA",
+      "action": "INVOICE_MAPPED",
+      "details": "Batched 1 deliverables into Invoice HR-PWD-2026-0806 (₹100000)",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "log-1789303412013",
+      "timestamp": "2026-09-13 12:43:32",
+      "user": "Amit Kumar (Field Officer)",
+      "role": "FIELD_ENGINEER",
+      "action": "DELIVERABLE_SUBMITTED",
+      "details": "Uploaded field deliverable DEL-2026-010 (Gurugram)",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "log-1789303283006",
+      "timestamp": "2026-09-13 12:41:23",
+      "user": "Vikramjit Singh",
+      "role": "BILLING_QA",
+      "action": "INVOICE_MAPPED",
+      "details": "Batched 1 deliverables into Invoice HR-PWD-2026-0805 (₹124000)",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "log-1789303263810",
+      "timestamp": "2026-09-13 12:41:03",
+      "user": "Amit Kumar (Field Officer)",
+      "role": "FIELD_ENGINEER",
+      "action": "DELIVERABLE_SUBMITTED",
+      "details": "Uploaded field deliverable DEL-2026-009 (Gurugram)",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "log-101",
+      "timestamp": "2026-09-13 01:22:10",
+      "user": "Dr. Rajesh Verma",
+      "role": "SYSTEM_ADMIN",
+      "action": "PORTAL_SYNC",
+      "details": "Manual sync triggered for Corporate Gateway",
+      "ip": "10.240.12.89"
+    },
+    {
+      "id": "log-102",
+      "timestamp": "2026-09-13 00:45:33",
+      "user": "Vikramjit Singh",
+      "role": "BILLING_QA",
+      "action": "ZERO_VALUE_RESOLVED",
+      "details": "Updated DEL-2026-008 from zero-value to ₹17.5L",
+      "ip": "10.240.14.12"
+    },
+    {
+      "id": "log-103",
+      "timestamp": "2026-09-12 21:10:04",
+      "user": "Smt. Sunita Sharma",
+      "role": "EXECUTIVE",
+      "action": "EXECUTIVE_EXPORT",
+      "details": "Generated One-Tap Aggregated Financial PDF Summary",
+      "ip": "10.240.10.05"
+    },
+    {
+      "id": "log-104",
+      "timestamp": "2026-09-12 16:30:12",
+      "user": "Amit Kumar",
+      "role": "FIELD_ENGINEER",
+      "action": "DELIVERABLE_SUBMITTED",
+      "details": "Uploaded raw report DEL-2026-008 (Gurugram District)",
+      "ip": "10.240.22.44"
+    }
+  ],
+  "dbMetrics": {
+    "status": "HEALTHY",
+    "active_connections": 42,
+    "query_latency_ms": 3.8,
+    "allocated_storage_gb": 14.2,
+    "max_storage_gb": 100,
+    "last_backup": "2026-09-13 00:00:00"
+  }
+}

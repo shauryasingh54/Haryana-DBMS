@@ -4,12 +4,13 @@ import AdminPortal from './components/AdminPortal';
 import ExecutiveDashboard from './components/ExecutiveDashboard';
 import BillingQAPortal from './components/BillingQAPortal';
 import FieldEngineerPortal from './components/FieldEngineerPortal';
+import { Play, CheckCircle2, ChevronDown, Sparkles } from 'lucide-react';
 
 const INITIAL_DISTRICTS = ['Gurugram', 'Faridabad', 'Ambala', 'Hisar', 'Karnal', 'Rohtak'];
 
 export default function App() {
-  const [currentRole, setCurrentRole] = useState('EXECUTIVE'); // Default to Executive Management
-  const [activeDistrict, setActiveDistrict] = useState('Gurugram'); // Default district for Field Engineer
+  const [currentRole, setCurrentRole] = useState('EXECUTIVE'); // Default to Executive
+  const [activeDistrict, setActiveDistrict] = useState('Gurugram');
 
   // State data
   const [users, setUsers] = useState([]);
@@ -20,6 +21,9 @@ export default function App() {
   const [dbHealth, setDbHealth] = useState(null);
   const [analyticsData, setAnalyticsData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Demo Notification Banner state
+  const [demoBanner, setDemoBanner] = useState(null);
 
   // Fetch data from backend API
   const fetchData = async () => {
@@ -41,7 +45,7 @@ export default function App() {
       setAuditLogs(healthRes.auditLogs);
       setAnalyticsData(analyticsRes);
     } catch (err) {
-      console.warn('Backend API not responding, fallback to client state mode:', err);
+      console.warn('Backend API error, using client state fallback:', err);
     } finally {
       setLoading(false);
     }
@@ -51,8 +55,53 @@ export default function App() {
     fetchData();
   }, []);
 
-  // Handlers with backend API calls & fallback local state updates
+  // Demo Submission Showcase Trigger
+  const handleTriggerDemoSubmission = async () => {
+    const demoItem = {
+      title: `Demo Bridge Inspection #${Math.floor(100 + Math.random() * 900)}`,
+      district: activeDistrict,
+      engineer_id: 'usr-4',
+      engineer_name: 'Amit Kumar (Field Officer)',
+      raw_file_name: 'Bridge_Structural_Audit_Demo.pdf',
+      estimated_value: 1500000,
+      notes: 'Sample live field report created via Demo Showcase Button.'
+    };
 
+    try {
+      const res = await fetch('/api/deliverables', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(demoItem)
+      });
+      const created = await res.json();
+      await fetchData();
+
+      setDemoBanner({
+        title: 'Sample Field Deliverable Created!',
+        details: `Created "${created.title}" in ${activeDistrict} District. Check Billing & QA, Executive Dashboard, or Admin Audit Logs to see instant cross-role updates!`,
+        id: created.id
+      });
+    } catch (err) {
+      const newDel = {
+        id: `DEL-2026-DEMO-${Date.now().toString().slice(-3)}`,
+        ...demoItem,
+        submission_date: new Date().toISOString().substring(0, 10),
+        status: 'ZERO_VALUE',
+        certified_value: 0,
+        invoice_id: null
+      };
+      setDeliverables(prev => [newDel, ...prev]);
+      setDemoBanner({
+        title: 'Sample Field Deliverable Created!',
+        details: `Created "${newDel.title}" in ${activeDistrict} District. Instantly reflected in client state across all views!`,
+        id: newDel.id
+      });
+    }
+
+    setTimeout(() => setDemoBanner(null), 8000);
+  };
+
+  // Handlers with backend API calls & fallback updates
   const handleSyncIntegration = async (id, toggleOffline) => {
     try {
       await fetch('/api/admin/integrations/sync', {
@@ -153,8 +202,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col font-sans">
-      {/* Global Navbar with 4-Tier Role Switcher */}
+    <div className="min-h-screen bg-black text-zinc-100 flex flex-col font-sans antialiased selection:bg-zinc-800 selection:text-white border-t border-zinc-800">
+      {/* Global Clean Navbar */}
       <Navbar
         currentRole={currentRole}
         setCurrentRole={setCurrentRole}
@@ -162,14 +211,35 @@ export default function App() {
         setActiveDistrict={setActiveDistrict}
         districts={INITIAL_DISTRICTS}
         dbHealth={dbHealth}
+        onTriggerDemoSubmission={handleTriggerDemoSubmission}
       />
+
+      {/* Demo Broadcast Banner */}
+      {demoBanner && (
+        <div className="bg-zinc-900 border-b border-zinc-800 px-4 py-3 text-xs flex items-center justify-between text-zinc-200 animate-fadeIn">
+          <div className="max-w-7xl mx-auto w-full flex items-center space-x-3">
+            <span className="w-2 h-2 rounded-full bg-white animate-ping"></span>
+            <Sparkles className="w-4 h-4 text-zinc-400 shrink-0" />
+            <div>
+              <span className="font-bold text-white mr-2">{demoBanner.title}</span>
+              <span className="text-zinc-400">{demoBanner.details}</span>
+            </div>
+          </div>
+          <button
+            onClick={() => setDemoBanner(null)}
+            className="text-zinc-500 hover:text-white font-mono text-xs px-2"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading ? (
-          <div className="flex items-center justify-center py-24 text-slate-400 space-x-3">
-            <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-sm font-semibold">Initializing Haryana DBMS Modernized Engine...</span>
+          <div className="flex items-center justify-center py-32 text-zinc-500 space-x-3">
+            <div className="w-5 h-5 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-xs font-mono tracking-wider uppercase">Loading Haryana DBMS Engine...</span>
           </div>
         ) : (
           <>
@@ -214,21 +284,22 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950 py-6 text-xs text-slate-500">
+      {/* Clean Footer */}
+      <footer className="border-t border-zinc-800 bg-black py-6 text-xs text-zinc-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <p className="font-semibold text-slate-400">Haryana DBMS Modernization Platform</p>
-            <p className="text-[11px] text-slate-500">
-              Role-Based Access Control • Integrated One-Tap Summary Generator • District Data Scoping
+            <p className="font-semibold text-zinc-300">Haryana DBMS Platform</p>
+            <p className="text-[11px] text-zinc-600">
+              Role-Based Access Control • Integrated Financial Ledger • District Data Scoping
             </p>
           </div>
           <div className="text-right">
-            <p className="font-mono text-slate-400">System Admin • Executive • Billing/QA • Field Engineer</p>
-            <p className="text-[11px] text-slate-500">© 2026 Government of Haryana. All Rights Reserved.</p>
+            <p className="font-mono text-zinc-400">System Admin • Executive • Billing/QA • Field Engineer</p>
+            <p className="text-[11px] text-zinc-600">© 2026 Government of Haryana. Monochrome Minimalist Edition.</p>
           </div>
         </div>
       </footer>
     </div>
   );
 }
+

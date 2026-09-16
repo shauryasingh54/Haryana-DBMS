@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileCheck, Link2, CheckSquare, Square, DollarSign, Upload, AlertCircle, FilePlus, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { FileCheck, Link2, CheckSquare, Square, DollarSign, Upload, AlertCircle, FilePlus, Sparkles, CheckCircle2, ShieldCheck, ChevronDown } from 'lucide-react';
 
 export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, onResolveZeroValue, onReconcileOffline }) {
   const [selectedIds, setSelectedIds] = useState([]);
@@ -15,6 +15,8 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
   // Offline reconciliation state
   const [showOfflineModal, setShowOfflineModal] = useState(false);
   const [offlineInput, setOfflineInput] = useState('');
+
+  const [showActionsDropdown, setShowActionsDropdown] = useState(false);
 
   // Toggle deliverable selection for invoice mapping
   const toggleSelect = (id) => {
@@ -64,7 +66,6 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
   const handleOfflineReconcileSubmit = (e) => {
     e.preventDefault();
     try {
-      // Simple CSV/Line parser for offline reconciliation demo
       const lines = offlineInput.split('\n').filter(l => l.trim().length > 0);
       const records = lines.map(line => {
         const parts = line.split(',');
@@ -92,104 +93,128 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
 
   return (
     <div className="space-y-6">
-      {/* Tier 3 Banner */}
-      <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 border border-emerald-800/40 rounded-2xl p-6 shadow-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-              <FileCheck className="w-6 h-6" />
+      {/* Tier 3 Header */}
+      <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center space-x-2 text-xs text-zinc-400">
+              <span className="font-mono text-white px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 uppercase tracking-wider text-[10px]">
+                Tier 3 • Billing & QA Specialist
+              </span>
+              <span>• Invoice Mapping & Audit Desk</span>
             </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase tracking-wider">
-                  Tier 3 • Billing & QA Specialist
-                </span>
-                <span className="text-xs text-slate-400">• Multi-Report Invoice Mapping Desk</span>
+            <h2 className="text-xl font-bold text-white mt-2">Billing & QA Operations</h2>
+            <p className="text-xs text-zinc-400 mt-1">
+              Certify zero-value report valuations, map unbilled deliverables into government invoices, and reconcile offline ledgers.
+            </p>
+          </div>
+
+          {/* Action Dropdown Menu */}
+          <div className="relative">
+            <button
+              onClick={() => setShowActionsDropdown(!showActionsDropdown)}
+              className="flex items-center space-x-2 px-4 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-semibold rounded-lg transition"
+            >
+              <Upload className="w-3.5 h-3.5" />
+              <span>QA & Import Actions</span>
+              <ChevronDown className="w-3.5 h-3.5 ml-1" />
+            </button>
+
+            {showActionsDropdown && (
+              <div className="absolute right-0 mt-2 w-56 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl z-50 py-1.5">
+                <button
+                  onClick={() => {
+                    setShowOfflineModal(true);
+                    setShowActionsDropdown(false);
+                  }}
+                  className="w-full text-left px-3 py-2 text-xs text-zinc-200 hover:bg-zinc-800 flex items-center space-x-2"
+                >
+                  <Upload className="w-4 h-4 text-zinc-400" />
+                  <span>Reconcile Offline Ledger (CSV)</span>
+                </button>
+                <button
+                  onClick={() => {
+                    selectAllUnmapped();
+                    setShowActionsDropdown(false);
+                  }}
+                  className="w-full text-left px-3 py-2 text-xs text-zinc-200 hover:bg-zinc-800 flex items-center space-x-2 border-t border-zinc-800/60"
+                >
+                  <CheckSquare className="w-4 h-4 text-zinc-400" />
+                  <span>Select All Unbilled Reports</span>
+                </button>
               </div>
-              <h2 className="text-xl font-bold text-white mt-1">Deliverable-to-Invoice Mapping & Zero-Value Resolution</h2>
-              <p className="text-sm text-slate-400 mt-0.5">
-                Batch orphan zero-value inspection deliverables into certified invoices and reconcile offline ledger records.
-              </p>
-            </div>
+            )}
           </div>
-
-          <button
-            onClick={() => setShowOfflineModal(true)}
-            className="flex items-center space-x-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-emerald-600/20"
-          >
-            <Upload className="w-4 h-4" />
-            <span>Reconcile Offline Ledger (CSV/Excel)</span>
-          </button>
         </div>
       </div>
 
-      {/* Problem Diagnosis Counter Cards */}
+      {/* KPI Counters */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex items-center space-x-4">
-          <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400">
-            <AlertCircle className="w-6 h-6" />
+        <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 flex items-center space-x-4 shadow-sm">
+          <div className="p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-300">
+            <AlertCircle className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 uppercase font-semibold">Zero-Value / Orphaned Reports</p>
-            <p className="text-xl font-bold text-rose-400 mt-0.5">{zeroValueDeliverables.length} Deliverables</p>
-            <p className="text-xs text-slate-400">Requires QA valuation certification</p>
+            <p className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">Zero-Value Reports</p>
+            <p className="text-xl font-bold text-white mt-0.5">{zeroValueDeliverables.length} Submissions</p>
+            <p className="text-[11px] text-zinc-500">Requires QA valuation sign-off</p>
           </div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex items-center space-x-4">
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
-            <Link2 className="w-6 h-6" />
+        <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 flex items-center space-x-4 shadow-sm">
+          <div className="p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-300">
+            <Link2 className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 uppercase font-semibold">Unbilled Deliverables Pool</p>
-            <p className="text-xl font-bold text-emerald-400 mt-0.5">{unmappedDeliverables.length} Ready for Mapping</p>
-            <p className="text-xs text-slate-400">Can be batched to single certified invoice</p>
+            <p className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">Unbilled Pool</p>
+            <p className="text-xl font-bold text-white mt-0.5">{unmappedDeliverables.length} Ready</p>
+            <p className="text-[11px] text-zinc-500">Available for batch invoicing</p>
           </div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex items-center space-x-4">
-          <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
-            <FileCheck className="w-6 h-6" />
+        <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 flex items-center space-x-4 shadow-sm">
+          <div className="p-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-300">
+            <FileCheck className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 uppercase font-semibold">Total Certified Invoices</p>
-            <p className="text-xl font-bold text-white mt-0.5">{invoices.length} Invoices Issued</p>
-            <p className="text-xs text-slate-400">Multi-report to single invoice structure</p>
+            <p className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">Total Invoices</p>
+            <p className="text-xl font-bold text-white mt-0.5">{invoices.length} Issued</p>
+            <p className="text-[11px] text-zinc-500">Multi-report batch registry</p>
           </div>
         </div>
       </div>
 
-      {/* Main Suite: Multi-Deliverable to Single Invoice Mapping Tool */}
+      {/* Main Mapping Suite */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Left Column (2 cols): Unmapped Inspection Deliverables List */}
-        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* Left Column (2 cols): Unmapped Deliverables */}
+        <div className="lg:col-span-2 bg-zinc-950 border border-zinc-800 rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-white flex items-center">
-                <CheckSquare className="w-5 h-5 text-emerald-400 mr-2" />
-                Select Deliverables for Batch Invoice Mapping
+              <h3 className="text-sm font-bold text-white flex items-center">
+                <CheckSquare className="w-4 h-4 text-zinc-400 mr-2" />
+                Select Deliverables for Batch Invoicing
               </h3>
-              <p className="text-xs text-slate-400">Click deliverables to include in a multi-report single invoice.</p>
+              <p className="text-xs text-zinc-400">Click deliverables to batch into 1 consolidated invoice.</p>
             </div>
 
             <div className="flex items-center space-x-2">
               <button
                 onClick={selectAllUnmapped}
-                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded font-medium transition"
+                className="px-2.5 py-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 text-xs rounded border border-zinc-800 transition"
               >
-                Select All ({unmappedDeliverables.length})
+                Select All
               </button>
               <button
                 onClick={clearSelection}
-                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs rounded font-medium transition"
+                className="px-2.5 py-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 text-xs rounded border border-zinc-800 transition"
               >
                 Clear
               </button>
             </div>
           </div>
 
-          <div className="space-y-3 max-h-[480px] overflow-y-auto pr-1">
+          <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
             {deliverables.map(del => {
               const isSelected = selectedIds.includes(del.id);
               const isZeroValue = del.status === 'ZERO_VALUE' || del.status === 'PENDING_QA';
@@ -201,44 +226,40 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
                   onClick={() => !isInvoiced && toggleSelect(del.id)}
                   className={`p-4 rounded-xl border transition cursor-pointer flex items-center justify-between ${
                     isInvoiced
-                      ? 'bg-slate-950/40 border-slate-800/60 opacity-60 cursor-not-allowed'
+                      ? 'bg-zinc-950/40 border-zinc-800/40 opacity-40 cursor-not-allowed'
                       : isSelected
-                      ? 'bg-emerald-950/30 border-emerald-500/60 shadow-md ring-1 ring-emerald-500/30'
-                      : 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                      ? 'bg-zinc-900 border-white text-white'
+                      : 'bg-zinc-900/60 border-zinc-800 hover:border-zinc-700'
                   }`}
                 >
                   <div className="flex items-start space-x-3">
-                    <div className="mt-1">
+                    <div className="mt-0.5">
                       {isSelected ? (
-                        <CheckSquare className="w-5 h-5 text-emerald-400" />
+                        <CheckSquare className="w-4 h-4 text-white" />
                       ) : (
-                        <Square className="w-5 h-5 text-slate-600" />
+                        <Square className="w-4 h-4 text-zinc-600" />
                       )}
                     </div>
 
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-mono text-xs font-bold text-slate-300">{del.id}</span>
-                        <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-semibold">{del.district}</span>
-                        <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${
-                          isInvoiced ? 'bg-blue-900/60 text-blue-300' :
-                          isZeroValue ? 'bg-rose-900/60 text-rose-300' : 'bg-emerald-900/60 text-emerald-300'
-                        }`}>
+                        <span className="font-mono text-xs font-bold text-zinc-300">{del.id}</span>
+                        <span className="text-xs px-2 py-0.5 rounded bg-black text-zinc-300 font-semibold border border-zinc-800">{del.district}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded font-mono uppercase bg-zinc-800 text-zinc-300">
                           {del.status}
                         </span>
                       </div>
 
-                      <h4 className="text-sm font-bold text-white mt-1">{del.title}</h4>
-                      <p className="text-xs text-slate-400 mt-0.5">
-                        Engineer: {del.engineer_name} • File: <span className="font-mono text-slate-300">{del.raw_file_name}</span>
+                      <h4 className="text-xs font-bold text-white mt-1">{del.title}</h4>
+                      <p className="text-[11px] text-zinc-500 mt-0.5">
+                        Engineer: {del.engineer_name} • File: <span className="font-mono text-zinc-400">{del.raw_file_name}</span>
                       </p>
-                      {del.notes && <p className="text-[11px] text-slate-500 italic mt-1">{del.notes}</p>}
                     </div>
                   </div>
 
                   <div className="text-right shrink-0">
-                    <p className="text-xs text-slate-400 uppercase font-semibold">Valuation</p>
-                    <p className="text-sm font-mono font-extrabold text-white mt-0.5">
+                    <p className="text-[10px] text-zinc-500 uppercase font-mono">Valuation</p>
+                    <p className="text-sm font-mono font-bold text-white mt-0.5">
                       ₹{(del.certified_value > 0 ? del.certified_value : del.estimated_value).toLocaleString('en-IN')}
                     </p>
                     {isZeroValue && (
@@ -248,7 +269,7 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
                           setResolvingItem(del);
                           setCertifiedVal(del.estimated_value);
                         }}
-                        className="mt-2 px-2.5 py-1 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 text-[11px] font-semibold rounded transition"
+                        className="mt-2 px-2.5 py-1 bg-white hover:bg-zinc-200 text-black text-[11px] font-semibold rounded transition"
                       >
                         Resolve Zero-Value
                       </button>
@@ -261,75 +282,75 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
         </div>
 
         {/* Right Column (1 col): Invoice Batch Mapping Form */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-          <h3 className="text-base font-bold text-white flex items-center">
-            <Link2 className="w-5 h-5 text-blue-400 mr-2" />
+        <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 shadow-sm space-y-4">
+          <h3 className="text-sm font-bold text-white flex items-center">
+            <Link2 className="w-4 h-4 text-zinc-400 mr-2" />
             Batch Invoice Generation
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-zinc-400">
             Map {selectedIds.length} selected report deliverables into 1 single certified government invoice.
           </p>
 
           <form onSubmit={handleMapSubmit} className="space-y-4 pt-2">
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-              <div className="flex justify-between text-xs text-slate-400">
+            <div className="bg-black p-4 rounded-xl border border-zinc-800 space-y-2">
+              <div className="flex justify-between text-xs text-zinc-400">
                 <span>Selected Deliverables:</span>
                 <span className="font-bold text-white">{selectedIds.length} reports</span>
               </div>
-              <div className="flex justify-between text-xs text-slate-400">
+              <div className="flex justify-between text-xs text-zinc-400">
                 <span>Aggregated Total Value:</span>
-                <span className="font-mono font-extrabold text-emerald-400 text-sm">
+                <span className="font-mono font-bold text-white text-sm">
                   ₹{selectedTotal.toLocaleString('en-IN')}
                 </span>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Custom Invoice Number (Optional)</label>
+              <label className="block text-[11px] font-mono text-zinc-400 uppercase mb-1">Custom Invoice Number (Optional)</label>
               <input
                 type="text"
                 value={invoiceNumber}
                 onChange={e => setInvoiceNumber(e.target.value)}
                 placeholder="e.g. HR-PWD-2026-0805"
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 font-mono"
+                className="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-zinc-500 font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Billing District</label>
+              <label className="block text-[11px] font-mono text-zinc-400 uppercase mb-1">Billing District</label>
               <select
                 value={invoiceDistrict}
                 onChange={e => setInvoiceDistrict(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-zinc-500 font-semibold"
               >
                 {['Gurugram', 'Faridabad', 'Ambala', 'Hisar', 'Karnal', 'Rohtak'].map(d => (
-                  <option key={d} value={d}>{d} District</option>
+                  <option key={d} value={d}>{d}</option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">Mapping Remarks & QA Certification</label>
+              <label className="block text-[11px] font-mono text-zinc-400 uppercase mb-1">QA Certification Notes</label>
               <textarea
                 value={invoiceNotes}
                 onChange={e => setInvoiceNotes(e.target.value)}
-                placeholder="Notes on quality audit verification and batched deliverable mapping..."
+                placeholder="QA audit notes..."
                 rows={3}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-zinc-500"
               />
             </div>
 
             <button
               type="submit"
               disabled={selectedIds.length === 0}
-              className={`w-full py-3 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition shadow-lg ${
+              className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition ${
                 selectedIds.length > 0
-                  ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30'
-                  : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                  ? 'bg-white hover:bg-zinc-200 text-black shadow-sm'
+                  : 'bg-zinc-900 text-zinc-600 border border-zinc-800 cursor-not-allowed'
               }`}
             >
               <FilePlus className="w-4 h-4" />
-              <span>Map {selectedIds.length} Deliverables to Invoice</span>
+              <span>Map {selectedIds.length} Reports to Invoice</span>
             </button>
           </form>
         </div>
@@ -337,15 +358,15 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
       </div>
 
       {/* Certified Issued Invoices Registry */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-        <h3 className="text-base font-bold text-white flex items-center mb-4">
-          <ShieldCheck className="w-5 h-5 text-emerald-400 mr-2" />
+      <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 shadow-sm">
+        <h3 className="text-sm font-bold text-white flex items-center mb-4">
+          <ShieldCheck className="w-4 h-4 text-zinc-400 mr-2" />
           Certified Multi-Report Invoices Registry
         </h3>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-950 uppercase text-slate-400 border-b border-slate-800 font-mono text-[11px]">
+          <table className="w-full text-left text-xs text-zinc-300">
+            <thead className="bg-black uppercase text-zinc-500 border-b border-zinc-800 font-mono text-[10px]">
               <tr>
                 <th className="py-3 px-4">Invoice ID</th>
                 <th className="py-3 px-4">Invoice Number</th>
@@ -356,27 +377,23 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
                 <th className="py-3 px-4">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-zinc-800/60">
               {invoices.map(inv => (
-                <tr key={inv.id} className="hover:bg-slate-800/40 transition">
-                  <td className="py-3 px-4 font-mono font-bold text-blue-400">{inv.id}</td>
-                  <td className="py-3 px-4 font-mono font-semibold text-white">{inv.invoice_number}</td>
-                  <td className="py-3 px-4 font-semibold text-slate-200">{inv.district}</td>
-                  <td className="py-3 px-4 font-mono text-slate-400">{inv.billing_date}</td>
+                <tr key={inv.id} className="hover:bg-zinc-900/60 transition">
+                  <td className="py-3 px-4 font-mono font-bold text-white">{inv.id}</td>
+                  <td className="py-3 px-4 font-mono text-zinc-300">{inv.invoice_number}</td>
+                  <td className="py-3 px-4 font-semibold text-zinc-300">{inv.district}</td>
+                  <td className="py-3 px-4 font-mono text-zinc-500">{inv.billing_date}</td>
                   <td className="py-3 px-4">
-                    <span className="px-2 py-0.5 rounded bg-slate-800 font-mono text-slate-200">
-                      {inv.deliverable_ids ? inv.deliverable_ids.length : 0} Reports Batched
+                    <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 font-mono text-zinc-300 text-[10px]">
+                      {inv.deliverable_ids ? inv.deliverable_ids.length : 0} Reports Mapped
                     </span>
                   </td>
-                  <td className="py-3 px-4 font-mono font-extrabold text-white">
+                  <td className="py-3 px-4 font-mono font-bold text-white">
                     ₹{inv.total_amount.toLocaleString('en-IN')}
                   </td>
-                  <td className="py-3 px-4">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                      inv.status === 'PAID' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                    }`}>
-                      {inv.status}
-                    </span>
+                  <td className="py-3 px-4 font-mono text-[10px]">
+                    {inv.status}
                   </td>
                 </tr>
               ))}
@@ -387,50 +404,50 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
 
       {/* Modal: Zero-Value Resolution */}
       {resolvingItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold text-white flex items-center">
-              <DollarSign className="w-5 h-5 text-amber-400 mr-2" />
-              Resolve Zero-Value Status & QA Valuation
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-bold text-white flex items-center">
+              <DollarSign className="w-4 h-4 text-zinc-400 mr-2" />
+              Resolve Zero-Value & QA Valuation
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-zinc-400">
               Deliverable: <span className="font-bold text-white">{resolvingItem.title}</span> ({resolvingItem.id})
             </p>
 
             <form onSubmit={handleResolveSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">QA Certified Value (INR)</label>
+                <label className="block text-[11px] font-mono text-zinc-400 uppercase mb-1">QA Certified Value (INR)</label>
                 <input
                   type="number"
                   required
                   value={certifiedVal}
                   onChange={e => setCertifiedVal(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-amber-500"
+                  className="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-zinc-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">QA Certification Remarks</label>
+                <label className="block text-[11px] font-mono text-zinc-400 uppercase mb-1">QA Certification Remarks</label>
                 <textarea
                   value={resolutionNotes}
                   onChange={e => setResolutionNotes(e.target.value)}
-                  placeholder="Verification details, structural audit sign-off..."
+                  placeholder="Verification details..."
                   rows={3}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                  className="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-zinc-500"
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-4 border-t border-slate-800">
+              <div className="flex justify-end space-x-3 pt-4 border-t border-zinc-800">
                 <button
                   type="button"
                   onClick={() => setResolvingItem(null)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg"
+                  className="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-semibold rounded-lg"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg shadow-lg shadow-emerald-600/20"
+                  className="px-4 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-semibold rounded-lg"
                 >
                   Approve & Certify
                 </button>
@@ -442,41 +459,41 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
 
       {/* Modal: Offline Record Reconciliation */}
       {showOfflineModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold text-white flex items-center">
-              <Upload className="w-5 h-5 text-emerald-400 mr-2" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-bold text-white flex items-center">
+              <Upload className="w-4 h-4 text-zinc-400 mr-2" />
               Batch Reconcile Offline Ledger Records
             </h3>
-            <p className="text-xs text-slate-400">
-              Import historical offline inspection data trapped in desktop folders/Excel ledgers during portal downtime.
+            <p className="text-xs text-zinc-400">
+              Import historical offline inspection data logged during portal downtime.
             </p>
 
             <form onSubmit={handleOfflineReconcileSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase mb-1">
+                <label className="block text-[11px] font-mono text-zinc-400 uppercase mb-1">
                   CSV Line Format: Title, District, Value, Engineer
                 </label>
                 <textarea
                   value={offlineInput}
                   onChange={e => setOfflineInput(e.target.value)}
                   placeholder={`Gurugram Flyover Pillar Inspection, Gurugram, 1200000, Er. Nitin Gupta\nFaridabad Drainage Survey, Faridabad, 650000, Er. Ritu Saini`}
-                  rows={6}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-emerald-500"
+                  rows={5}
+                  className="w-full bg-black border border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-zinc-500"
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-4 border-t border-slate-800">
+              <div className="flex justify-end space-x-3 pt-4 border-t border-zinc-800">
                 <button
                   type="button"
                   onClick={() => setShowOfflineModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg"
+                  className="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-semibold rounded-lg"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg shadow-lg shadow-emerald-600/20"
+                  className="px-4 py-2 bg-white hover:bg-zinc-200 text-black text-xs font-semibold rounded-lg"
                 >
                   Batch Import Records
                 </button>
@@ -488,3 +505,4 @@ export default function BillingQAPortal({ deliverables, invoices, onMapInvoice, 
     </div>
   );
 }
+
